@@ -1,13 +1,11 @@
-package br.com.lpara.vacinapp.br.com.lpara.vacinapp.network;
-
-import android.util.Log;
+package br.com.lpara.vacinapp.network;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.com.lpara.vacinapp.br.com.lpara.vacinapp.recursos.DoencaRSC;
-import br.com.lpara.vacinapp.br.com.lpara.vacinapp.recursos.VacinaRSC;
+import br.com.lpara.vacinapp.recursos.DoencaRSC;
+import br.com.lpara.vacinapp.recursos.VacinaRSC;
 
 /**
  * Created by LPAra on 19/11/2017.

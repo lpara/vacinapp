@@ -1,4 +1,4 @@
-package br.com.lpara.vacinapp;
+package br.com.lpara.vacinapp.principais;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,8 +8,9 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.lpara.vacinapp.br.com.lpara.vacinapp.network.Utils;
-import br.com.lpara.vacinapp.br.com.lpara.vacinapp.recursos.DoencaRSC;
+import br.com.lpara.vacinapp.R;
+import br.com.lpara.vacinapp.network.Utils;
+import br.com.lpara.vacinapp.recursos.DoencaRSC;
 
 public class MinhasVacinaActivity extends AppCompatActivity {
 

@@ -1,10 +1,12 @@
-package br.com.lpara.vacinapp;
+package br.com.lpara.vacinapp.principais;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.os.Bundle;
 import android.widget.Button;
+
+import br.com.lpara.vacinapp.R;
 
 public class HomeActivity extends AppCompatActivity {
 

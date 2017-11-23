@@ -1,16 +1,16 @@
-package br.com.lpara.vacinapp.br.com.lpara.vacinapp.recursos;
+package br.com.lpara.vacinapp.recursos;
 
 /**
  * Created by LPAra on 18/11/2017.
  */
 
-public class VacinaRSC {
+public class DoencaRSC {
 
     private String id;
 
     private String nome;
 
-    private String renovavel;
+    private VacinaRSC vacina;
 
     public String getId() {
         return id;
@@ -28,11 +28,11 @@ public class VacinaRSC {
         this.nome = nome;
     }
 
-    public String getRenovavel() {
-        return renovavel;
+    public VacinaRSC getVacina() {
+        return vacina;
     }
 
-    public void setRenovavel(String renovavel) {
-        this.renovavel = renovavel;
+    public void setVacina(VacinaRSC vacina) {
+        this.vacina = vacina;
     }
 }

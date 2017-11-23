@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.lpara.vacinapp.HomeActivity">
+    tools:context="br.com.lpara.vacinapp.principais.HomeActivity">
 
     <Button
         android:id="@+id/btnGerVacina"
