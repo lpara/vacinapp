@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">VacinApp</string>
+    <string name="btn_gerVacina">Gerenciar Vacinas</string>
+    <string name="btn_gerVacinaPet">Vacinas Pets</string>
+    <string name="btn_bckDados">Backup Dados</string>
+    <string name="btn_utlPublica">Utilidade Pública</string>
+
+</resources>
