@@ -1,22 +1,27 @@
 package br.com.lpara.vacinapp.recursos;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by LPAra on 18/11/2017.
  */
 
 public class VacinaRSC {
 
-    private String id;
+    @SerializedName("id")
+    private Long id;
 
+    @SerializedName("nome")
     private String nome;
 
-    private String renovavel;
+    @SerializedName("renovavel")
+    private Boolean renovavel;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,11 +33,11 @@ public class VacinaRSC {
         this.nome = nome;
     }
 
-    public String getRenovavel() {
+    public Boolean getRenovavel() {
         return renovavel;
     }
 
-    public void setRenovavel(String renovavel) {
+    public void setRenovavel(Boolean renovavel) {
         this.renovavel = renovavel;
     }
 }
