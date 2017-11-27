@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +16,9 @@ import br.com.lpara.vacinapp.recursos.DoencaRSC;
 public class MinhasVacinaActivity extends AppCompatActivity {
 
     Spinner spnDoencas;
-    private Map<Long,String> mapaDoencas;
-    private static final String urlAPI = "http://localhost:8080";
+    private Map<Long,String> mapaDoencas = new HashMap<Long,String>();
+    //ip localhost no Android = 10.0.2.2, mesmo que http://localhost:8080
+    private static final String urlAPI = "http://10.0.2.2:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +32,6 @@ public class MinhasVacinaActivity extends AppCompatActivity {
     }
 
     private void popularMapa(){
-        if(mapaDoencas == null){
-            mapaDoencas= new HashMap<Long,String>();
-        }
         APIDoenca apiDoenca = new APIDoenca();
         List<DoencaRSC> doencasServer = apiDoenca.buscarDoencasDaAPI(urlAPI);
         for(DoencaRSC doenca : doencasServer){

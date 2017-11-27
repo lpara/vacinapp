@@ -2,16 +2,11 @@ package br.com.lpara.vacinapp.network;
 
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.lpara.vacinapp.principais.MinhasVacinaActivity;
 import br.com.lpara.vacinapp.recursos.DoencaRSC;
-import br.com.lpara.vacinapp.recursos.VacinaRSC;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,9 +35,12 @@ public class APIDoenca {
         doencasCall.enqueue(new Callback<List<DoencaRSC>>() {
             @Override
             public void onResponse(Call<List<DoencaRSC>> call, Response<List<DoencaRSC>> response) {
-                List<DoencaRSC> doencas = response.body();
-                result.addAll(doencas);
-
+                if(response.isSuccessful()) {
+                    List<DoencaRSC> doencas = response.body();
+                    result.addAll(doencas);
+                }else{
+                    Log.e("MinhasVacinaActivity", "Erro ao se comunicar com API");
+                }
             }
 
             @Override
