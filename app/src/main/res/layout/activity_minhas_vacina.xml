@@ -1,16 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="br.com.lpara.vacinapp.principais.MinhasVacinaActivity">
 
-    <Spinner
+    <!--<Spinner
         android:id="@+id/spnDoencas"
         android:layout_width="285dp"
         android:layout_height="26dp"
         tools:layout_editor_absoluteX="38dp"
         tools:layout_editor_absoluteY="86dp"
-        android:layout_marginTop="83dp"/>
-</android.support.constraint.ConstraintLayout>
+        android:layout_below="@+id/spnVacinas"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="60dp" />-->
+
+    <!--<EditText
+        android:id="@+id/iptnVacinas"
+        android:layout_width="285dp"
+        android:layout_height="26dp"
+        tools:layout_editor_absoluteY="180dp"
+        tools:layout_editor_absoluteX="38dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="28dp"
+        android:hint="Vacina"
+        android:layout_below="@+id/txtFormDoenca"
+        android:layout_alignParentEnd="true" />-->
+
+    <EditText
+        android:id="@+id/iptnDoenca"
+        android:layout_width="285dp"
+        android:layout_height="40dp"
+        tools:layout_editor_absoluteY="251dp"
+        tools:layout_editor_absoluteX="38dp"
+        android:hint="Doença"
+        android:layout_marginTop="42dp"
+        android:layout_below="@+id/txtFormDoenca"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnInserirDoenca"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="Inserir"
+        tools:layout_editor_absoluteY="310dp"
+        tools:layout_editor_absoluteX="130dp"
+        android:onClick="inserirDoenca"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/btnCancelarOp" />
+
+    <Button
+        android:id="@+id/btnCancelarOp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="Cancelar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/txtFormDoenca" />
+
+    <TextView
+        android:id="@+id/txtFormDoenca"
+        android:layout_width="200dp"
+        android:layout_height="26dp"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="Registro da Vacinação"
+        tools:layout_editor_absoluteY="310dp"
+        tools:layout_editor_absoluteX="110dp"
+        android:layout_marginTop="27dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/iptnLote"
+        android:layout_width="285dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="106dp"
+        android:hint="Lote"
+        android:layout_below="@+id/iptnDoses"
+        android:layout_centerHorizontal="true" />
+
+
+    <EditText
+        android:id="@+id/iptnDoses"
+        android:layout_width="80dp"
+        android:hint="Doses"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/iptnDoenca"
+        android:layout_below="@+id/iptnDoenca"
+        android:layout_marginTop="40dp" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="Definir Doses"
+        android:layout_below="@+id/iptnDoses"
+        android:layout_alignStart="@+id/iptnLote"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:id="@+id/textRenovavel"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:text="Renovavel?"
+        android:textSize="20dp"
+        android:layout_below="@+id/iptnLote"
+        android:layout_alignStart="@+id/iptnLote"
+        android:layout_marginTop="17dp" />
+    
+    <RadioGroup
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:typeface="normal"
+        android:layout_below="@+id/textRenovavel"
+        android:layout_alignStart="@+id/textRenovavel">
+        <RadioButton
+            android:id="@+id/radioBtnSim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sim"/>
+        <RadioButton
+            android:id="@+id/radioBtnNao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Não"
+            android:checked="true"/>
+    </RadioGroup>
+
+
+
+</RelativeLayout>
