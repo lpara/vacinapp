@@ -3,12 +3,13 @@ package br.com.lpara.vacinapp.recursos;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * Created by LPAra on 18/11/2017.
+ * Created by LPAra on 03/12/2017.
  */
 
-public class VacinaRSC implements Serializable{
+public class PessoaRSC implements Serializable{
 
     @SerializedName("id")
     private Long id;
@@ -16,8 +17,8 @@ public class VacinaRSC implements Serializable{
     @SerializedName("nome")
     private String nome;
 
-    @SerializedName("renovavel")
-    private Boolean renovavel;
+    @SerializedName("dataNascimento")
+    private Date dataNascimento;
 
     public Long getId() {
         return id;
@@ -35,11 +36,11 @@ public class VacinaRSC implements Serializable{
         this.nome = nome;
     }
 
-    public Boolean getRenovavel() {
-        return renovavel;
+    public Date getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setRenovavel(Boolean renovavel) {
-        this.renovavel = renovavel;
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.lpara.vacinapp.principais.InserirDoseActivity">
+
+    <TextView
+        android:id="@+id/textInserirDose"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:text="Insira a(s) dose(s) tomada"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginTop="7dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/txtId"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:text="Identificador da dose:"
+        android:textSize="15dp"
+        android:gravity="bottom"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/textInserirDose"
+        android:layout_alignStart="@+id/iptnId" />
+
+    <EditText
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:hint="1ª, 2ª, 3ª..."
+        android:layout_marginTop="64dp"
+        android:id="@+id/iptnId"
+        android:inputType="number"
+        android:layout_below="@+id/textInserirDose"
+        android:layout_alignStart="@+id/textInserirDose" />
+
+    <TextView
+        android:id="@+id/txtDataDose"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:text="Data em que a dose foi tomada:"
+        android:textSize="15dp"
+        android:gravity="bottom"
+        android:layout_above="@+id/caledarDose"
+        android:layout_alignStart="@+id/iptnId"
+        android:layout_marginBottom="7dp" />
+
+    <CalendarView
+        android:id="@+id/caledarDose"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_above="@+id/btnInserirDose"
+        android:layout_alignStart="@+id/txtDataDose"
+        android:layout_marginBottom="7dp" />
+
+    <Button
+        android:id="@+id/btnInserirDose"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/btnCancelar"
+        android:text="Inserir"/>
+
+    <Button
+        android:id="@+id/btnCancelar"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/iptnId"
+        android:layout_marginStart="7dp"
+        android:text="Voltar"/>
+
+
+
+</RelativeLayout>

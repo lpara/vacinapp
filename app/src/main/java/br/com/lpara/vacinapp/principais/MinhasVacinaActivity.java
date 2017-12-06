@@ -1,14 +1,18 @@
 package br.com.lpara.vacinapp.principais;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +22,9 @@ import br.com.lpara.vacinapp.network.APIDoencaInterface;
 import br.com.lpara.vacinapp.network.APIVacinaInterface;
 import br.com.lpara.vacinapp.network.RetrofitService;
 import br.com.lpara.vacinapp.recursos.DoencaRSC;
+import br.com.lpara.vacinapp.recursos.DoseRSC;
 import br.com.lpara.vacinapp.recursos.VacinaRSC;
+import br.com.lpara.vacinapp.recursos.VacinacaoRSC;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,82 +32,63 @@ import retrofit2.Retrofit;
 
 public class MinhasVacinaActivity extends AppCompatActivity {
 
-    Spinner spnDoencas;
-    Spinner spnVacinas;
-    EditText iptNDoenca;
-    private Map<String,Long> mapaDoencas = new HashMap<String,Long>();
-    private Map<String,Long> mapaVacinas = new HashMap<String,Long>();
+    public static  EditText iptnDoenca;
+    private TextView txtRenovavel;
+    private EditText iptnLote;
+
+    //private Map<String,Long> mapaVacinas = new HashMap<String,Long>();
+    private VacinaRSC vacinaRealizada = new VacinaRSC();
+    private static VacinacaoRSC vacinacao = new VacinacaoRSC();
+    public static List<DoseRSC> dosesInseridas = new ArrayList<DoseRSC>();
+
     //ip localhost no Android = 10.0.2.2, mesmo que http://localhost:8080
-    private static final String urlAPI = "http://10.0.2.2:8080";
+    public static final String urlAPI = "http://10.0.2.2:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minhas_vacina);
-        spnDoencas = (Spinner) findViewById(R.id.spnDoencas);
-        spnVacinas = (Spinner) findViewById(R.id.spnVacinas);
-        iptNDoenca = (EditText) findViewById(R.id.iptNDoenca);
-        popularDadosDoencas();
-        popularDadosVacinas();
+        iptnDoenca = (EditText) findViewById(R.id.iptnDoenca);
+        txtRenovavel = (TextView) findViewById(R.id.textRenovavel);
+        txtRenovavel.setVisibility(View.INVISIBLE);
+        iptnLote = (EditText) findViewById(R.id.iptnLote);
+
+        if(getIntent().hasExtra("vacina")){
+            vacinaRealizada = (VacinaRSC) getIntent().getSerializableExtra("vacina");
+            if(vacinaRealizada.getRenovavel()){
+                txtRenovavel.setVisibility(View.VISIBLE);
+            }
+        }
+
+
     }
 
-    private void popularDadosDoencas(){
-        final ArrayAdapter<String> arrayAdDoenca = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
+    public void buscarDoenca(){
+        Intent inte = new Intent(MinhasVacinaActivity.this, BuscaDoencaActivity.class);
+        startActivity(inte);
+    }
+
+    public void criarDoses(){
+        Intent inteDoses = new Intent(MinhasVacinaActivity.this, InserirDoseActivity.class);
+    }
+
+    /*private void popularDadosVacinas(Long idDoenca){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
 
         RetrofitService apiService = new RetrofitService();
         APIDoencaInterface apiDoenca = apiService.criarRetrofitService(APIDoencaInterface.class, urlAPI);
-        Call<List<DoencaRSC>> doencasCall = apiDoenca.getDoencasServ();
+        Call<VacinaRSC> doencasCall = apiDoenca.buscarVacinaPorDoenca(idDoenca);
 
-        doencasCall.enqueue(new Callback<List<DoencaRSC>>() {
+        doencasCall.enqueue(new Callback<VacinaRSC>() {
             @Override
-            public void onResponse(Call<List<DoencaRSC>> call, Response<List<DoencaRSC>> response) {
-                if(response.isSuccessful()) {
-                    List<DoencaRSC> doencas = response.body();
-                    for(DoencaRSC doenca : doencas) {
-                        arrayAdDoenca.add(doenca.getNome());
-                        mapaDoencas.put(doenca.getNome(), doenca.getId());
-                    }
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            spnDoencas.setAdapter(arrayAdDoenca);
-                        }
-                    });
-
-                }else{
-                    Toast.makeText(getApplicationContext(), "Erro ao acessar API", Toast.LENGTH_SHORT);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<DoencaRSC>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Erro de acesso a rede", Toast.LENGTH_SHORT);
-            }
-        });
-    }
-
-    private void popularDadosVacinas(){
-        final ArrayAdapter<String> arrayAdVacina = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
-        final Handler mainHandler = new Handler(Looper.getMainLooper());
-
-        RetrofitService apiService = new RetrofitService();
-        APIVacinaInterface apiVacina = apiService.criarRetrofitService(APIVacinaInterface.class, urlAPI);
-        Call<List<VacinaRSC>> vacinasCall = apiVacina.getVacinasServ();
-
-        vacinasCall.enqueue(new Callback<List<VacinaRSC>>() {
-            @Override
-            public void onResponse(Call<List<VacinaRSC>> call, Response<List<VacinaRSC>> response) {
+            public void onResponse(Call<VacinaRSC> call, Response<VacinaRSC> response) {
                 if(response.isSuccessful()){
-                    List<VacinaRSC> vacinas = response.body();
-                    for(VacinaRSC vacina : vacinas){
-                        arrayAdVacina.add(vacina.getNome());
-                        mapaVacinas.put(vacina.getNome(), vacina.getId());
-                    }
+                    VacinaRSC vacina = response.body();
+                    vacinaRealizada = vacina;
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            spnVacinas.setAdapter(arrayAdVacina);
+                            vacinacao.setVacina(vacinaRealizada);
                         }
                     });
                 }else{
@@ -110,24 +97,24 @@ public class MinhasVacinaActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<VacinaRSC>> call, Throwable t) {
+            public void onFailure(Call<VacinaRSC> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Erro de acesso a rede", Toast.LENGTH_SHORT);
             }
         });
+    }*/
+
+    public void inserirDoses(){
+
     }
 
-    public void inserirDoenca(){
-        String nomeDoenca = iptNDoenca.getText().toString();
-        Long idVacina = mapaVacinas.get(nomeDoenca);
-        VacinaRSC vacinaAux = new VacinaRSC();
-        vacinaAux.setId(idVacina);
-        DoencaRSC novaDoenca = new DoencaRSC();
-        novaDoenca.setNome(nomeDoenca);
-        novaDoenca.setVacina(vacinaAux);
+    public void inserirVacinacao(){
+
+        vacinacao.setVacina(vacinaRealizada);
+
 
         RetrofitService apiService = new RetrofitService();
         APIDoencaInterface apiDoenca = apiService.criarRetrofitService(APIDoencaInterface.class, urlAPI);
-        Call<DoencaRSC> doencaCall = apiDoenca.insertDoenca(novaDoenca);
+        /*Call<DoencaRSC> doencaCall = apiDoenca.insertDoenca(novaDoenca);
         doencaCall.enqueue(new Callback<DoencaRSC>() {
             @Override
             public void onResponse(Call<DoencaRSC> call, Response<DoencaRSC> response) {
@@ -142,7 +129,7 @@ public class MinhasVacinaActivity extends AppCompatActivity {
             public void onFailure(Call<DoencaRSC> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Erro ao acessar a rede.", Toast.LENGTH_SHORT);
             }
-        });
+        });*/
 
     }
 

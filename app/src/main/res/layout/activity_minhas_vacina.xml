@@ -35,18 +35,19 @@
         tools:layout_editor_absoluteY="251dp"
         tools:layout_editor_absoluteX="38dp"
         android:hint="Doença"
+        android:onClick="buscarDoenca"
         android:layout_marginTop="42dp"
         android:layout_below="@+id/txtFormDoenca"
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/btnInserirDoenca"
+        android:id="@+id/btnInserirVacinacao"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:text="Inserir"
         tools:layout_editor_absoluteY="310dp"
         tools:layout_editor_absoluteX="130dp"
-        android:onClick="inserirDoenca"
+        android:onClick="inserirVacinacao"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/btnCancelarOp" />
 
@@ -75,40 +76,42 @@
         android:id="@+id/iptnLote"
         android:layout_width="285dp"
         android:layout_height="40dp"
-        android:layout_marginTop="106dp"
+        android:layout_marginTop="42dp"
         android:hint="Lote"
-        android:layout_below="@+id/iptnDoses"
+        android:layout_below="@+id/btnDoses"
         android:layout_centerHorizontal="true" />
 
 
-    <EditText
+    <!--<EditText
         android:id="@+id/iptnDoses"
         android:layout_width="80dp"
         android:hint="Doses"
         android:layout_height="40dp"
-        android:layout_alignStart="@+id/iptnDoenca"
+        android:layout_marginTop="40dp"
         android:layout_below="@+id/iptnDoenca"
-        android:layout_marginTop="40dp" />
+        android:layout_alignStart="@+id/button" />-->
 
     <Button
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:text="Definir Doses"
-        android:layout_below="@+id/iptnDoses"
-        android:layout_alignStart="@+id/iptnLote"
-        android:layout_marginTop="35dp" />
+        android:layout_marginTop="35dp"
+        android:id="@+id/btnDoses"
+        android:layout_below="@+id/iptnDoenca"
+        android:layout_alignStart="@+id/iptnDoenca"
+        android:onClick="criarDoses"/>
 
     <TextView
         android:id="@+id/textRenovavel"
-        android:layout_width="120dp"
+        android:layout_width="200dp"
         android:layout_height="40dp"
-        android:text="Renovavel?"
+        android:text="Definir data renovação"
         android:textSize="20dp"
         android:layout_below="@+id/iptnLote"
         android:layout_alignStart="@+id/iptnLote"
         android:layout_marginTop="17dp" />
     
-    <RadioGroup
+    <!--<RadioGroup
         android:layout_width="180dp"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -126,7 +129,7 @@
             android:layout_height="wrap_content"
             android:text="Não"
             android:checked="true"/>
-    </RadioGroup>
+    </RadioGroup>-->
 
 
 

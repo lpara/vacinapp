@@ -2,11 +2,13 @@ package br.com.lpara.vacinapp.recursos;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by LPAra on 18/11/2017.
  */
 
-public class DoencaRSC {
+public class DoencaRSC implements Serializable{
 
     @SerializedName("id")
     private Long id;
