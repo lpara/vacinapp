@@ -19,7 +19,9 @@ import java.util.Map;
 
 import br.com.lpara.vacinapp.R;
 import br.com.lpara.vacinapp.network.APIDoencaInterface;
+import br.com.lpara.vacinapp.network.APIDoseInterface;
 import br.com.lpara.vacinapp.network.APIVacinaInterface;
+import br.com.lpara.vacinapp.network.APIVacinacaoInterface;
 import br.com.lpara.vacinapp.network.RetrofitService;
 import br.com.lpara.vacinapp.recursos.DoencaRSC;
 import br.com.lpara.vacinapp.recursos.DoseRSC;
@@ -103,34 +105,61 @@ public class MinhasVacinaActivity extends AppCompatActivity {
         });
     }*/
 
-    public void inserirDoses(){
+    /*public void inserirDoses(){
+        if(dosesInseridas.size() > 0){
+            RetrofitService apiServiceAux = new RetrofitService();
+            APIDoseInterface apiDoses = apiServiceAux.criarRetrofitService(APIDoseInterface.class, urlAPI);
+            Call<List<DoseRSC>> doseCall = apiDoses.insertDoseBatch(dosesInseridas);
+            doseCall.enqueue(new Callback<List<DoseRSC>>() {
+                @Override
+                public void onResponse(Call<List<DoseRSC>> call, Response<List<DoseRSC>> response) {
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Erro no processamento da operação.", Toast.LENGTH_SHORT);
+                    }
+                }
 
-    }
+                @Override
+                public void onFailure(Call<List<DoseRSC>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Erro de comunicação com servidor, tente novamente mais tarde.", Toast.LENGTH_SHORT);
+                }
+            });
+        }else{
+            Toast.makeText(getApplicationContext(), "Nenhuma dose foi definida para a vacinação.", Toast.LENGTH_SHORT);
+        }
+
+    }*/
 
     public void inserirVacinacao(){
+        if(dosesInseridas.size() > 0) {
+            vacinacao.setDoses(dosesInseridas);
+            vacinacao.setVacina(vacinaRealizada);
+            vacinacao.setLote(iptnLote.getText().toString());
+            if(vacinaRealizada.getRenovavel()){
 
-        vacinacao.setVacina(vacinaRealizada);
+            }
 
 
-        RetrofitService apiService = new RetrofitService();
-        APIDoencaInterface apiDoenca = apiService.criarRetrofitService(APIDoencaInterface.class, urlAPI);
-        /*Call<DoencaRSC> doencaCall = apiDoenca.insertDoenca(novaDoenca);
-        doencaCall.enqueue(new Callback<DoencaRSC>() {
-            @Override
-            public void onResponse(Call<DoencaRSC> call, Response<DoencaRSC> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "Doeça inserida com sucesso.", Toast.LENGTH_SHORT);
-                }else{
-                    Toast.makeText(getApplicationContext(), "Erro ao inserir vacina.", Toast.LENGTH_SHORT);
+            RetrofitService apiService = new RetrofitService();
+            APIVacinacaoInterface apiVacinacao = apiService.criarRetrofitService(APIVacinacaoInterface.class, urlAPI);
+            Call<VacinacaoRSC> vacinacaoCall = apiVacinacao.insertVacinacao(vacinacao);
+            /*doencaCall.enqueue(new Callback<DoencaRSC>() {
+                @Override
+                public void onResponse(Call<DoencaRSC> call, Response<DoencaRSC> response) {
+                    if(response.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Doeça inserida com sucesso.", Toast.LENGTH_SHORT);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Erro ao inserir vacina.", Toast.LENGTH_SHORT);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<DoencaRSC> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Erro ao acessar a rede.", Toast.LENGTH_SHORT);
-            }
-        });*/
-
+                @Override
+                public void onFailure(Call<DoencaRSC> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Erro ao acessar a rede.", Toast.LENGTH_SHORT);
+                }
+            });*/
+        }else{
+            Toast.makeText(getApplicationContext(), "Nenhuma dose foi definida para a vacinação.", Toast.LENGTH_SHORT);
+        }
     }
 
 

@@ -110,6 +110,12 @@
         android:layout_below="@+id/iptnLote"
         android:layout_alignStart="@+id/iptnLote"
         android:layout_marginTop="17dp" />
+
+    <DatePicker
+        android:layout_width="1200dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@+id/iptnLote"
+        android:layout_centerHorizontal="true"/>
     
     <!--<RadioGroup
         android:layout_width="180dp"
