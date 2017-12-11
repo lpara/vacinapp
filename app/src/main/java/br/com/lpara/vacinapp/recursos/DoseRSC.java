@@ -1,5 +1,6 @@
 package br.com.lpara.vacinapp.recursos;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -9,17 +10,22 @@ import java.util.Date;
  * Created by LPAra on 03/12/2017.
  */
 
-public class DoseRSC implements Serializable{
+public class DoseRSC extends Object implements Serializable{
 
     @SerializedName("id")
+    @Expose
     private Long id;
 
     @SerializedName("numeracao")
+    @Expose
     private Integer numeracao;
 
     @SerializedName("dataVacinacao")
+    @Expose
     private Date dataVacinacao;
 
+    @SerializedName("vacinacao")
+    @Expose
     private VacinacaoRSC vacinacao;
 
     public Long getId() {

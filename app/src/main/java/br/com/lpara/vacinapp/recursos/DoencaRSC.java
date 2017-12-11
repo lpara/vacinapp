@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by LPAra on 18/11/2017.
  */
 
-public class DoencaRSC implements Serializable{
+public class DoencaRSC extends Object implements Serializable {
 
     @SerializedName("id")
     private Long id;

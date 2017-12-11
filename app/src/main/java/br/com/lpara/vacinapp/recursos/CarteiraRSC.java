@@ -1,5 +1,6 @@
 package br.com.lpara.vacinapp.recursos;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -11,10 +12,15 @@ import java.io.Serializable;
 public class CarteiraRSC implements Serializable{
 
     @SerializedName("id")
+    @Expose
     private Long id;
 
+    @SerializedName("gerenciadorCarteira")
+    @Expose
     private UsuarioRSC gerenciadorCarteira;
 
+    @SerializedName("donoCarteira")
+    @Expose
     private PessoaRSC donoCarteira;
 
     public Long getId() {

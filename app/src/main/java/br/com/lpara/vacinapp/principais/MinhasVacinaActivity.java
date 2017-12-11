@@ -1,18 +1,23 @@
 package br.com.lpara.vacinapp.principais;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import java.util.Calendar;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +28,11 @@ import br.com.lpara.vacinapp.network.APIDoseInterface;
 import br.com.lpara.vacinapp.network.APIVacinaInterface;
 import br.com.lpara.vacinapp.network.APIVacinacaoInterface;
 import br.com.lpara.vacinapp.network.RetrofitService;
+import br.com.lpara.vacinapp.recursos.CarteiraRSC;
 import br.com.lpara.vacinapp.recursos.DoencaRSC;
 import br.com.lpara.vacinapp.recursos.DoseRSC;
+import br.com.lpara.vacinapp.recursos.PessoaRSC;
+import br.com.lpara.vacinapp.recursos.UsuarioRSC;
 import br.com.lpara.vacinapp.recursos.VacinaRSC;
 import br.com.lpara.vacinapp.recursos.VacinacaoRSC;
 import retrofit2.Call;
@@ -32,18 +40,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MinhasVacinaActivity extends AppCompatActivity {
+public class MinhasVacinaActivity extends AppCompatActivity implements View.OnClickListener{
 
+    //Objetos da View
     public static  EditText iptnDoenca;
     private TextView txtRenovavel;
     private EditText iptnLote;
+    private Button btnDataRenovacao;
+    private Button btnDoses;
+    private Button btnInserirVacinacao;
+    private Button btnCancelarOp;
+    private static Date dataRenovacao = new Date();
 
-    //private Map<String,Long> mapaVacinas = new HashMap<String,Long>();
+    //Variáveis auxiliares
+    private HashMap<String,List<Object>> mapaDadosVacinacao = new HashMap<String,List<Object>>();
     private VacinaRSC vacinaRealizada = new VacinaRSC();
-    private static VacinacaoRSC vacinacao = new VacinacaoRSC();
-    public static List<DoseRSC> dosesInseridas = new ArrayList<DoseRSC>();
+    private DoencaRSC doencaSelecionada = new DoencaRSC();
+    private List<DoseRSC> dosesInseridas = new ArrayList<DoseRSC>();
+    private Integer ano, mes, dia;
 
-    //ip localhost no Android = 10.0.2.2, mesmo que http://localhost:8080
+    //Ip localhost no Android = 10.0.2.2, mesmo que http://localhost:8080
     public static final String urlAPI = "http://10.0.2.2:8080";
 
     @Override
@@ -54,25 +70,132 @@ public class MinhasVacinaActivity extends AppCompatActivity {
         txtRenovavel = (TextView) findViewById(R.id.textRenovavel);
         txtRenovavel.setVisibility(View.INVISIBLE);
         iptnLote = (EditText) findViewById(R.id.iptnLote);
+        btnDataRenovacao = (Button) findViewById(R.id.btnDataRenovacao);
+        btnDataRenovacao.setVisibility(View.INVISIBLE);
+        btnDoses = (Button) findViewById(R.id.btnDoses);
+        btnInserirVacinacao = (Button) findViewById(R.id.btnInserirVacinacao);
+        btnCancelarOp = (Button) findViewById(R.id.btnCancelarOp);
 
-        if(getIntent().hasExtra("vacina")){
-            vacinaRealizada = (VacinaRSC) getIntent().getSerializableExtra("vacina");
-            if(vacinaRealizada.getRenovavel()){
-                txtRenovavel.setVisibility(View.VISIBLE);
+        if(getIntent().hasExtra("dadosRecebidos")){
+            mapaDadosVacinacao = (HashMap) getIntent().getSerializableExtra("dadosRecebidos");
+            if(mapaDadosVacinacao.size() > 0 && mapaDadosVacinacao.containsKey("doenca")) {
+                List<Object> listaDoencaAux = mapaDadosVacinacao.get("doenca");
+                doencaSelecionada = (DoencaRSC) listaDoencaAux.get(0);
+                if (doencaSelecionada != null) {
+                    vacinaRealizada = doencaSelecionada.getVacina();
+                    iptnDoenca.setText(doencaSelecionada.getNome());
+                    if (vacinaRealizada.getRenovavel()) {
+                        txtRenovavel.setVisibility(View.VISIBLE);
+                        btnDataRenovacao.setVisibility(View.VISIBLE);
+                        btnDataRenovacao.setOnClickListener(this);
+                    }
+                }
+            }
+            if(mapaDadosVacinacao.size() > 0 && mapaDadosVacinacao.containsKey("doses")){
+                List<Object> listaDosesAux = mapaDadosVacinacao.get("doses");
+                for(Object dose : listaDosesAux){
+                    dosesInseridas.add((DoseRSC) dose);
+                }
             }
         }
+        iptnDoenca.setOnClickListener(this);
+        btnDoses.setOnClickListener(this);
+        btnInserirVacinacao.setOnClickListener(this);
+        btnCancelarOp.setOnClickListener(this);
 
 
     }
 
-    public void buscarDoenca(){
+    @Override
+    public void onClick(View v){
+        if(v == btnDataRenovacao) {
+            final Calendar c = Calendar.getInstance();
+            ano = c.get(Calendar.YEAR);
+            mes = c.get(Calendar.MONTH);
+            dia = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dataPickerDialog = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker date, int ano, int mes, int dia){
+                            dataRenovacao = new Date(ano,mes,dia);
+                        }
+
+                    }, ano, mes, dia);
+            dataPickerDialog.show();
+        }
+        if(v == iptnDoenca){
+            Intent inte = new Intent(MinhasVacinaActivity.this, BuscaDoencaActivity.class);
+            inte.putExtra("dadosEnviados", mapaDadosVacinacao);
+            startActivity(inte);
+        }
+        if(v == btnDoses){
+            Intent inteDoses = new Intent(MinhasVacinaActivity.this, InserirDoseActivity.class);
+            inteDoses.putExtra("dadosEnviados", mapaDadosVacinacao);
+            startActivity(inteDoses);
+        }
+        if(v == btnInserirVacinacao){
+            if(dosesInseridas.size() > 0) {
+                VacinacaoRSC vacinacao = new VacinacaoRSC();
+                final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+                //Codigo auxiliar de teste
+                CarteiraRSC carteira = new CarteiraRSC();
+                carteira.setId(1L);
+
+                vacinacao.setDoses(dosesInseridas);
+                vacinacao.setVacina(vacinaRealizada);
+                vacinacao.setLote(iptnLote.getText().toString().trim());
+                vacinacao.setCarteira(carteira);
+                if(vacinaRealizada.getRenovavel()){
+                    vacinacao.setDataRenovacao(dataRenovacao);
+                }
+
+
+                RetrofitService apiService = new RetrofitService();
+                APIVacinacaoInterface apiVacinacao = apiService.criarRetrofitService(APIVacinacaoInterface.class, urlAPI);
+                Call<VacinacaoRSC> vacinacaoCall = apiVacinacao.insertVacinacao(vacinacao);
+                vacinacaoCall.enqueue(new Callback<VacinacaoRSC>() {
+                    @Override
+                    public void onResponse(Call<VacinacaoRSC> call, Response<VacinacaoRSC> response) {
+                        if(response.isSuccessful()){
+                            final VacinacaoRSC vacinacaoAux = response.body();
+                            mainHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MinhasVacinaActivity.this, "Vacinação da vacina "+ vacinacaoAux.getVacina().getNome() +" foi inserida com sucesso.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else{
+                            Toast.makeText(MinhasVacinaActivity.this, "Erro ao inserir vacinação.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<VacinacaoRSC> call, Throwable t) {
+                        Toast.makeText(MinhasVacinaActivity.this, "Erro ao acessar a rede.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                Toast.makeText(MinhasVacinaActivity.this, "Nenhuma dose foi definida para a vacinação.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(v == btnCancelarOp){
+            Intent inteCancelar = new Intent(MinhasVacinaActivity.this, GerenciarVacinaActivity.class);
+            startActivity(inteCancelar);
+        }
+
+    }
+
+    /*public void buscarDoenca(){
         Intent inte = new Intent(MinhasVacinaActivity.this, BuscaDoencaActivity.class);
         startActivity(inte);
-    }
+    }*/
 
-    public void criarDoses(){
+    /*public void criarDoses(){
         Intent inteDoses = new Intent(MinhasVacinaActivity.this, InserirDoseActivity.class);
-    }
+    }*/
 
     /*private void popularDadosVacinas(Long idDoenca){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -129,38 +252,46 @@ public class MinhasVacinaActivity extends AppCompatActivity {
 
     }*/
 
-    public void inserirVacinacao(){
+    /*public void inserirVacinacao(){
         if(dosesInseridas.size() > 0) {
+            final Handler mainHandler = new Handler(Looper.getMainLooper());
+
             vacinacao.setDoses(dosesInseridas);
             vacinacao.setVacina(vacinaRealizada);
             vacinacao.setLote(iptnLote.getText().toString());
             if(vacinaRealizada.getRenovavel()){
-
+                vacinacao.setDataRenovacao(dataRenovacao);
             }
 
 
             RetrofitService apiService = new RetrofitService();
             APIVacinacaoInterface apiVacinacao = apiService.criarRetrofitService(APIVacinacaoInterface.class, urlAPI);
             Call<VacinacaoRSC> vacinacaoCall = apiVacinacao.insertVacinacao(vacinacao);
-            /*doencaCall.enqueue(new Callback<DoencaRSC>() {
+            vacinacaoCall.enqueue(new Callback<VacinacaoRSC>() {
                 @Override
-                public void onResponse(Call<DoencaRSC> call, Response<DoencaRSC> response) {
+                public void onResponse(Call<VacinacaoRSC> call, Response<VacinacaoRSC> response) {
                     if(response.isSuccessful()){
-                        Toast.makeText(getApplicationContext(), "Doeça inserida com sucesso.", Toast.LENGTH_SHORT);
+                        final VacinacaoRSC vacinacaoAux = response.body();
+                        mainHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Vacinação da vacina "+ vacinacaoAux.getVacina().getNome() +" inserida com sucesso.", Toast.LENGTH_SHORT);
+                            }
+                        });
                     }else{
-                        Toast.makeText(getApplicationContext(), "Erro ao inserir vacina.", Toast.LENGTH_SHORT);
+                        Toast.makeText(getApplicationContext(), "Erro ao inserir vacinação.", Toast.LENGTH_SHORT);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<DoencaRSC> call, Throwable t) {
+                public void onFailure(Call<VacinacaoRSC> call, Throwable t) {
                     Toast.makeText(getApplicationContext(), "Erro ao acessar a rede.", Toast.LENGTH_SHORT);
                 }
-            });*/
+            });
         }else{
             Toast.makeText(getApplicationContext(), "Nenhuma dose foi definida para a vacinação.", Toast.LENGTH_SHORT);
         }
-    }
+    }*/
 
 
 }

@@ -7,13 +7,22 @@
     tools:context="br.com.lpara.vacinapp.principais.InserirDoseActivity">
 
     <TextView
+        android:id="@+id/txtContadorDoses"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Quantidade restante de doses a inserir: "
+        android:layout_below="@+id/textInserirDose"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="13dp" />
+
+    <TextView
         android:id="@+id/textInserirDose"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:text="Insira a(s) dose(s) tomada"
         android:gravity="center"
         android:textSize="20dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="8dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -24,7 +33,7 @@
         android:text="Identificador da dose:"
         android:textSize="15dp"
         android:gravity="bottom"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="31dp"
         android:layout_below="@+id/textInserirDose"
         android:layout_alignStart="@+id/iptnId" />
 
@@ -32,10 +41,9 @@
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:hint="1ª, 2ª, 3ª..."
-        android:layout_marginTop="64dp"
         android:id="@+id/iptnId"
         android:inputType="number"
-        android:layout_below="@+id/textInserirDose"
+        android:layout_below="@+id/txtId"
         android:layout_alignStart="@+id/textInserirDose" />
 
     <TextView
@@ -63,7 +71,8 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/btnCancelar"
-        android:text="Inserir"/>
+        android:text="Inserir"
+        android:onClick="inserirDose"/>
 
     <Button
         android:id="@+id/btnCancelar"
@@ -72,7 +81,8 @@
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/iptnId"
         android:layout_marginStart="7dp"
-        android:text="Voltar"/>
+        android:text="Voltar"
+        android:onClick="cancelarOperacao"/>
 
 
 

@@ -1,5 +1,6 @@
 package br.com.lpara.vacinapp.recursos;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -13,16 +14,23 @@ import java.util.List;
 public class VacinacaoRSC implements Serializable{
 
     @SerializedName("id")
+    @Expose
     private Long id;
 
+    @SerializedName("vacina")
+    @Expose
     private VacinaRSC vacina;
 
+    @SerializedName("carteira")
+    @Expose
     private CarteiraRSC carteira;
 
     @SerializedName("lote")
+    @Expose
     private String lote;
 
     @SerializedName("dataRenovacao")
+    @Expose
     private Date dataRenovacao;
 
     private List<DoseRSC> doses;

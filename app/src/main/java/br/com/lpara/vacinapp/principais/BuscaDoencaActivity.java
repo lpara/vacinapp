@@ -12,9 +12,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import br.com.lpara.vacinapp.R;
 import br.com.lpara.vacinapp.network.APIDoencaInterface;
@@ -29,7 +31,8 @@ import retrofit2.Response;
 public class BuscaDoencaActivity extends MinhasVacinaActivity {
 
     AutoCompleteTextView actvDoencas;
-    private Map<String,VacinaRSC> mapaDoenca = new HashMap<String,VacinaRSC>();
+    private Map<String,DoencaRSC> mapaDoenca = new HashMap<String,DoencaRSC>();
+    private HashMap<String,List<Object>> mapaDados = new HashMap<String,List<Object>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +46,20 @@ public class BuscaDoencaActivity extends MinhasVacinaActivity {
             Toast.makeText(getApplicationContext(), "Digite pelo menos 3 caracteres.", Toast.LENGTH_SHORT);
         }
 
+        if(getIntent().hasExtra("dadosEnviados")){
+            mapaDados = (HashMap<String,List<Object>>) getIntent().getSerializableExtra("dadosEnviados");
+        }
+
         actvDoencas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String doencaSelecionada = (String) adapterView.getItemAtPosition(i);
-                VacinaRSC vacinaAssociada = mapaDoenca.get(doencaSelecionada);
-                iptnDoenca.setText(doencaSelecionada);
+                DoencaRSC doencaAssociada = mapaDoenca.get(doencaSelecionada);
+                List<Object> doencasAux = new ArrayList<Object>();
+                doencasAux.add(doencaAssociada);
+                mapaDados.put("doenca",doencasAux);
                 Intent inte = new Intent(BuscaDoencaActivity.this, MinhasVacinaActivity.class);
-                inte.putExtra("vacina", vacinaAssociada);
+                inte.putExtra("dadosRecebidos", mapaDados);
                 startActivity(inte);
             }
         });
@@ -71,7 +80,7 @@ public class BuscaDoencaActivity extends MinhasVacinaActivity {
                     List<DoencaRSC> doencas = response.body();
                     for(DoencaRSC doenca : doencas) {
                         arrayAdDoenca.add(doenca.getNome());
-                        mapaDoenca.put(doenca.getNome(), doenca.getVacina());
+                        mapaDoenca.put(doenca.getNome(), doenca);
                     }
                     mainHandler.post(new Runnable() {
                         @Override

@@ -1,5 +1,6 @@
 package br.com.lpara.vacinapp.recursos;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -11,13 +12,20 @@ import java.io.Serializable;
 public class VacinaRSC implements Serializable{
 
     @SerializedName("id")
+    @Expose
     private Long id;
 
     @SerializedName("nome")
+    @Expose
     private String nome;
 
     @SerializedName("renovavel")
+    @Expose
     private Boolean renovavel;
+
+    @SerializedName("numeroDoses")
+    @Expose
+    private Integer numeroDoses;
 
     public Long getId() {
         return id;
@@ -41,5 +49,13 @@ public class VacinaRSC implements Serializable{
 
     public void setRenovavel(Boolean renovavel) {
         this.renovavel = renovavel;
+    }
+
+    public Integer getNumeroDoses() {
+        return numeroDoses;
+    }
+
+    public void setNumeroDoses(Integer numeroDoses) {
+        this.numeroDoses = numeroDoses;
     }
 }

@@ -35,7 +35,6 @@
         tools:layout_editor_absoluteY="251dp"
         tools:layout_editor_absoluteX="38dp"
         android:hint="Doença"
-        android:onClick="buscarDoenca"
         android:layout_marginTop="42dp"
         android:layout_below="@+id/txtFormDoenca"
         android:layout_centerHorizontal="true" />
@@ -47,9 +46,8 @@
         android:text="Inserir"
         tools:layout_editor_absoluteY="310dp"
         tools:layout_editor_absoluteX="130dp"
-        android:onClick="inserirVacinacao"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/btnCancelarOp" />
+        android:layout_alignEnd="@+id/btnDataRenovacao" />
 
     <Button
         android:id="@+id/btnCancelarOp"
@@ -57,11 +55,11 @@
         android:layout_height="40dp"
         android:text="Cancelar"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/txtFormDoenca" />
+        android:layout_toEndOf="@+id/btnInserirVacinacao" />
 
     <TextView
         android:id="@+id/txtFormDoenca"
-        android:layout_width="200dp"
+        android:layout_width="fill_parent"
         android:layout_height="26dp"
         android:gravity="center"
         android:textSize="20dp"
@@ -98,8 +96,7 @@
         android:layout_marginTop="35dp"
         android:id="@+id/btnDoses"
         android:layout_below="@+id/iptnDoenca"
-        android:layout_alignStart="@+id/iptnDoenca"
-        android:onClick="criarDoses"/>
+        android:layout_alignStart="@+id/iptnDoenca"/>
 
     <TextView
         android:id="@+id/textRenovavel"
@@ -107,15 +104,24 @@
         android:layout_height="40dp"
         android:text="Definir data renovação"
         android:textSize="20dp"
+        android:layout_marginTop="53dp"
         android:layout_below="@+id/iptnLote"
-        android:layout_alignStart="@+id/iptnLote"
-        android:layout_marginTop="17dp" />
+        android:layout_alignStart="@+id/iptnLote" />
 
-    <DatePicker
+    <Button
+        android:id="@+id/btnDataRenovacao"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="Definir Data"
+        android:layout_below="@+id/textRenovavel"
+        android:layout_alignStart="@+id/textRenovavel" />
+
+    <!--<DatePicker
         android:layout_width="1200dp"
         android:layout_height="100dp"
-        android:layout_alignTop="@+id/iptnLote"
-        android:layout_centerHorizontal="true"/>
+        android:datePickerMode="spinner"
+        android:layout_above="@+id/btnInserirVacinacao"
+        android:layout_alignParentStart="true" />-->
     
     <!--<RadioGroup
         android:layout_width="180dp"
