@@ -8,11 +8,9 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,25 +18,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import br.com.lpara.vacinapp.R;
-import br.com.lpara.vacinapp.network.APIDoencaInterface;
-import br.com.lpara.vacinapp.network.APIDoseInterface;
-import br.com.lpara.vacinapp.network.APIVacinaInterface;
 import br.com.lpara.vacinapp.network.APIVacinacaoInterface;
 import br.com.lpara.vacinapp.network.RetrofitService;
 import br.com.lpara.vacinapp.recursos.CarteiraRSC;
 import br.com.lpara.vacinapp.recursos.DoencaRSC;
 import br.com.lpara.vacinapp.recursos.DoseRSC;
-import br.com.lpara.vacinapp.recursos.PessoaRSC;
-import br.com.lpara.vacinapp.recursos.UsuarioRSC;
 import br.com.lpara.vacinapp.recursos.VacinaRSC;
 import br.com.lpara.vacinapp.recursos.VacinacaoRSC;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MinhasVacinaActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -56,6 +47,7 @@ public class MinhasVacinaActivity extends AppCompatActivity implements View.OnCl
     private HashMap<String,List<Object>> mapaDadosVacinacao = new HashMap<String,List<Object>>();
     private VacinaRSC vacinaRealizada = new VacinaRSC();
     private DoencaRSC doencaSelecionada = new DoencaRSC();
+    VacinacaoRSC vacinacao = new VacinacaoRSC();
     private List<DoseRSC> dosesInseridas = new ArrayList<DoseRSC>();
     private Integer ano, mes, dia;
 
@@ -137,7 +129,7 @@ public class MinhasVacinaActivity extends AppCompatActivity implements View.OnCl
         }
         if(v == btnInserirVacinacao){
             if(dosesInseridas.size() > 0) {
-                VacinacaoRSC vacinacao = new VacinacaoRSC();
+                vacinacao = new VacinacaoRSC();
                 final Handler mainHandler = new Handler(Looper.getMainLooper());
 
                 //Codigo auxiliar de teste

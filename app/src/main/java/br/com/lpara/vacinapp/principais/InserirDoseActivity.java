@@ -1,15 +1,17 @@
 package br.com.lpara.vacinapp.principais;
 
 import android.content.Intent;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,6 +35,8 @@ public class InserirDoseActivity extends MinhasVacinaActivity {
     private static List<Object> dosesInseridas = new ArrayList<Object>();
     private HashMap<String,List<Object>> mapaDados = new HashMap<String, List<Object>>();
     private Integer contadorNumeroDosesMax = 0;
+    private String dataFormatada = "";
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 
 
     //List<DoseRSC> dosesInseridas = new ArrayList<DoseRSC>();
@@ -61,6 +65,7 @@ public class InserirDoseActivity extends MinhasVacinaActivity {
         dataDose.setOnDateChangeListener(new CalendarView.OnDateChangeListener(){
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                dataFormatada = year+"-"+month+"-"+dayOfMonth;
                 dataAux = new Date(view.getDate());
             }
         });
@@ -70,6 +75,11 @@ public class InserirDoseActivity extends MinhasVacinaActivity {
         if (contadorNumeroDosesMax > 0){
             DoseRSC doseInserida = new DoseRSC();
             doseInserida.setNumeracao(Integer.valueOf(iptnIndice.getText().toString()));
+            try {
+                dataAux = dateFormat.parse(dataFormatada);
+            }catch (ParseException e){
+                Toast.makeText(InserirDoseActivity.this, "Erro ao inserir dose. Data no formato inválido.", Toast.LENGTH_SHORT);
+            }
             doseInserida.setDataVacinacao(dataAux);
             dosesInseridas.add(doseInserida);
             iptnIndice.setText("");
