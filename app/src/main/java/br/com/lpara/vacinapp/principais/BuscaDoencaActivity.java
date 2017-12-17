@@ -24,25 +24,31 @@ import br.com.lpara.vacinapp.network.RetrofitService;
 import br.com.lpara.vacinapp.recursos.DoencaRSC;
 import br.com.lpara.vacinapp.recursos.VacinaRSC;
 import br.com.lpara.vacinapp.recursos.VacinacaoRSC;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BuscaDoencaActivity extends MinhasVacinaActivity {
+public class BuscaDoencaActivity extends AppCompatActivity {
 
-    AutoCompleteTextView actvDoencas;
+    @BindView(R.id.actvDoencas)
+    public AutoCompleteTextView actViewDoencas;
     private Map<String,DoencaRSC> mapaDoenca = new HashMap<String,DoencaRSC>();
     private HashMap<String,List<Object>> mapaDados = new HashMap<String,List<Object>>();
+
+    //Ip localhost no Android = 10.0.2.2, mesmo que http://localhost:8080
+    public static final String urlAPI = "http://10.0.2.2:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busca_doenca);
-        actvDoencas = (AutoCompleteTextView) findViewById(R.id.actvDoencas);
-        actvDoencas.setThreshold(3);
+        ButterKnife.bind(this);
+        actViewDoencas.setThreshold(3);
         popularDadosDoencas();
 
-        if(actvDoencas.getText().length() < 3){
+        if(actViewDoencas.getText().length() < 3){
             Toast.makeText(getApplicationContext(), "Digite pelo menos 3 caracteres.", Toast.LENGTH_SHORT);
         }
 
@@ -50,7 +56,7 @@ public class BuscaDoencaActivity extends MinhasVacinaActivity {
             mapaDados = (HashMap<String,List<Object>>) getIntent().getSerializableExtra("dadosEnviados");
         }
 
-        actvDoencas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        actViewDoencas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String doencaSelecionada = (String) adapterView.getItemAtPosition(i);
@@ -85,7 +91,7 @@ public class BuscaDoencaActivity extends MinhasVacinaActivity {
                     mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            actvDoencas.setAdapter(arrayAdDoenca);
+                            actViewDoencas.setAdapter(arrayAdDoenca);
                         }
                     });
 

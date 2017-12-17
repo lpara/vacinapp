@@ -10,10 +10,9 @@
         android:id="@+id/btnGerVacina"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:layout_marginTop="43dp"
+        android:text="@string/btn_gerVacina"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="gerVacina"
-        android:layout_marginTop="83dp"
-        android:text="@string/btn_gerVacina" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -71,8 +71,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/btnCancelar"
-        android:text="Inserir"
-        android:onClick="inserirDose"/>
+        android:text="Inserir"/>
 
     <Button
         android:id="@+id/btnCancelar"
@@ -81,8 +80,7 @@
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/iptnId"
         android:layout_marginStart="7dp"
-        android:text="Voltar"
-        android:onClick="cancelarOperacao"/>
+        android:text="Voltar"/>
 
 
 

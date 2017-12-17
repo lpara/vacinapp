@@ -27,6 +27,8 @@ import br.com.lpara.vacinapp.recursos.DoencaRSC;
 import br.com.lpara.vacinapp.recursos.DoseRSC;
 import br.com.lpara.vacinapp.recursos.VacinaRSC;
 import br.com.lpara.vacinapp.recursos.VacinacaoRSC;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,22 +36,30 @@ import retrofit2.Response;
 public class MinhasVacinaActivity extends AppCompatActivity implements View.OnClickListener{
 
     //Objetos da View
-    public static  EditText iptnDoenca;
-    private TextView txtRenovavel;
-    private EditText iptnLote;
-    private Button btnDataRenovacao;
-    private Button btnDoses;
-    private Button btnInserirVacinacao;
-    private Button btnCancelarOp;
-    private static Date dataRenovacao = new Date();
+    @BindView(R.id.iptnDoenca)
+    public EditText iptnDoenca;
+    @BindView(R.id.textRenovavel)
+    public TextView txtRenovavel;
+    @BindView(R.id.iptnLote)
+    public EditText iptnLote;
+    @BindView(R.id.btnDataRenovacao)
+    public Button btnDataRenovacao;
+    @BindView(R.id.btnDoses)
+    public Button btnDoses;
+    @BindView(R.id.btnInserirVacinacao)
+    public Button btnInserirVacinacao;
+    @BindView(R.id.btnCancelarOp)
+    public Button btnCancelarOp;
 
     //Variáveis auxiliares
     private HashMap<String,List<Object>> mapaDadosVacinacao = new HashMap<String,List<Object>>();
     private VacinaRSC vacinaRealizada = new VacinaRSC();
     private DoencaRSC doencaSelecionada = new DoencaRSC();
-    VacinacaoRSC vacinacao = new VacinacaoRSC();
+    private VacinacaoRSC vacinacao = new VacinacaoRSC();
     private List<DoseRSC> dosesInseridas = new ArrayList<DoseRSC>();
     private Integer ano, mes, dia;
+    private Date dataRenovacao = new Date();
+    //private Boolean testActivity = true;
 
     //Ip localhost no Android = 10.0.2.2, mesmo que http://localhost:8080
     public static final String urlAPI = "http://10.0.2.2:8080";
@@ -58,19 +68,13 @@ public class MinhasVacinaActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minhas_vacina);
-        iptnDoenca = (EditText) findViewById(R.id.iptnDoenca);
-        txtRenovavel = (TextView) findViewById(R.id.textRenovavel);
+        ButterKnife.bind(this);
         txtRenovavel.setVisibility(View.INVISIBLE);
-        iptnLote = (EditText) findViewById(R.id.iptnLote);
-        btnDataRenovacao = (Button) findViewById(R.id.btnDataRenovacao);
         btnDataRenovacao.setVisibility(View.INVISIBLE);
-        btnDoses = (Button) findViewById(R.id.btnDoses);
-        btnInserirVacinacao = (Button) findViewById(R.id.btnInserirVacinacao);
-        btnCancelarOp = (Button) findViewById(R.id.btnCancelarOp);
 
-        if(getIntent().hasExtra("dadosRecebidos")){
+        if (getIntent().hasExtra("dadosRecebidos")) {
             mapaDadosVacinacao = (HashMap) getIntent().getSerializableExtra("dadosRecebidos");
-            if(mapaDadosVacinacao.size() > 0 && mapaDadosVacinacao.containsKey("doenca")) {
+            if (mapaDadosVacinacao.size() > 0 && mapaDadosVacinacao.containsKey("doenca")) {
                 List<Object> listaDoencaAux = mapaDadosVacinacao.get("doenca");
                 doencaSelecionada = (DoencaRSC) listaDoencaAux.get(0);
                 if (doencaSelecionada != null) {
@@ -83,9 +87,9 @@ public class MinhasVacinaActivity extends AppCompatActivity implements View.OnCl
                     }
                 }
             }
-            if(mapaDadosVacinacao.size() > 0 && mapaDadosVacinacao.containsKey("doses")){
+            if (mapaDadosVacinacao.size() > 0 && mapaDadosVacinacao.containsKey("doses")) {
                 List<Object> listaDosesAux = mapaDadosVacinacao.get("doses");
-                for(Object dose : listaDosesAux){
+                for (Object dose : listaDosesAux) {
                     dosesInseridas.add((DoseRSC) dose);
                 }
             }
